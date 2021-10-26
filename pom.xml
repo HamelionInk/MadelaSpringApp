@@ -6,6 +6,10 @@
   <packaging>war</packaging>
 
   <name>MadelaSpringApp</name>
+  <properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+  </properties>
   <groupId>ru.nikitin</groupId>
   <artifactId>MadelaSpringApp</artifactId>
   <version>1.0-SNAPSHOT</version>
@@ -102,6 +106,14 @@
       <artifactId>hibernate-validator</artifactId>
       <version>7.0.1.Final</version>
     </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.3.0</version>
+    </dependency>
+
 
   </dependencies>
 
