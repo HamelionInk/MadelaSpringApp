@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Таблица с Адресатами</title>
 </head>
 <body>
 
-<p>Ebat ti lox</p>
+<p>I tyt</p>
+<div th:each="person : ${persons}">
+    <p th:text="${person.getName() + ',' + person.getSurname()}"></p>
+
+</div>
 
 </body>
 </html>

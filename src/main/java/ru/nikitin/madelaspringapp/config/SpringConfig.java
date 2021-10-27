@@ -13,15 +13,15 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 @Configuration
-@ComponentScan("ru.nikitin.madelaspringapp")
 @EnableWebMvc
+@ComponentScan("ru.nikitin.madelaspringapp")
 public class SpringConfig implements WebMvcConfigurer {
+
     private final ApplicationContext applicationContext;
 
     @Autowired
     public SpringConfig(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
-
     }
 
     @Bean
@@ -41,9 +41,12 @@ public class SpringConfig implements WebMvcConfigurer {
         return templateEngine;
     }
 
-    public void configureViewResolver(ViewResolverRegistry registry) {
+    @Override
+    public void configureViewResolvers(ViewResolverRegistry registry) {
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
         resolver.setTemplateEngine(templateEngine());
         registry.viewResolver(resolver);
     }
 }
+
+
