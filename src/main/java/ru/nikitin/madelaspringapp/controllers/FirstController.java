@@ -31,7 +31,7 @@ public class FirstController {
         return "first/updatePage";
     }
 
-    @DeleteMapping("/DataControl/delete/{id}")
+    @PostMapping("/DataControl/delete/{id}")
     public String deletePage(@PathVariable("id") int id) {
         PersonDAO.deletePerson(id);
         return "redirect:/DataControl";
