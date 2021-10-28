@@ -15,6 +15,8 @@ public class PersonDAO {
 
     private static Connection connection;
 
+    private static int PERSON_COUNT;
+
     static {
         try {
             Class.forName("org.postgresql.Driver");
@@ -34,7 +36,7 @@ public class PersonDAO {
 
         try {
             Statement statement = connection.createStatement();
-            String SQL = "SELECT * FROM persons";
+            String SQL = "SELECT * FROM person";
             ResultSet resultSet = statement.executeQuery(SQL);
 
             while (resultSet.next()) {
@@ -44,12 +46,30 @@ public class PersonDAO {
                 person.setName(resultSet.getString("name"));
                 person.setSurname(resultSet.getString("surname"));
                 person.setEmail(resultSet.getString("email"));
+
+                personList.add(person);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return personList;
 
+    }
+
+    public static void addPerson(Person person) {
+        try {
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement("INSERT INTO person VALUES(?, ?, ?, ?)");
+
+            preparedStatement.setInt(1, person.getId());
+            preparedStatement.setString(2, person.getName());
+            preparedStatement.setString(3, person.getSurname());
+            preparedStatement.setString(4, person.getEmail());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }
 

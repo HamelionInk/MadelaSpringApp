@@ -6,7 +6,6 @@
 </head>
 <body>
 
-<p>I tyt</p>
 <div th:each="person : ${persons}">
     <p th:text="${person.getName() + ',' + person.getSurname()}"></p>
 
