@@ -2,13 +2,31 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Таблица с Адресатами</title>
+    <title>DataControl</title>
 </head>
 <body>
 
-<div th:each="person : ${persons}">
-    <p th:text="${person.getName() + ',' + person.getSurname()}"></p>
+<p>DataControl</p>
+<div>
+    <table border="1">
+        <tr>
+            <td>id</td>
+            <td>name</td>
+            <td>surname</td>
+            <td>email</td>
+        </tr>
 
+        <tr th:each="personb : ${persons}">
+            <td th:text="${personb.getId()}" ></td>
+            <td th:text="${personb.getName()}"></td>
+            <td th:text="${personb.getSurname()}"></td>
+            <td th:text="${personb.getEmail()}"></td>
+            <td><a href="/DataControl/update">Edit</a></td>
+            <td>
+                <input th:href="@{/DataControl/delete/{id}(id=${personb.getId()})}" th:value="Delete" type="submit">
+            </td>
+    </table>
+    <a href="DataControl/add">New</a>
 </div>
 
 </body>

@@ -2,9 +2,7 @@ package ru.nikitin.madelaspringapp.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.nikitin.madelaspringapp.dao.PersonDAO;
 import ru.nikitin.madelaspringapp.model.Person;
 
@@ -12,7 +10,7 @@ import ru.nikitin.madelaspringapp.model.Person;
 public class FirstController {
 
     @GetMapping("/DataControl")
-    public String showPage(Model model) {
+    public String showPage(Model model, @ModelAttribute("idPerson") Person person) {
         model.addAttribute("persons", PersonDAO.getPersons());
         return "first/firstPage";
     }
@@ -28,13 +26,14 @@ public class FirstController {
         return "redirect:/DataControl";
     }
 
-    @GetMapping
+    @GetMapping("/DataControl/update")
     public String updatePage() {
         return "first/updatePage";
     }
 
-    @GetMapping("/DataControl/delete")
-    public String deletePage() {
-        return "first/deletePage";
+    @DeleteMapping("/DataControl/delete/{id}")
+    public String deletePage(@PathVariable("id") int id) {
+        PersonDAO.deletePerson(id);
+        return "redirect:/DataControl";
     }
 }

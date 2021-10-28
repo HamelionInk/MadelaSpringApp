@@ -31,6 +31,10 @@ public class PersonDAO {
         }
     }
 
+    public static int getPersonCount() {
+        return PERSON_COUNT;
+    }
+
     public static List<Person> getPersons() {
         List<Person> personList = new ArrayList<>();
 
@@ -61,10 +65,24 @@ public class PersonDAO {
             PreparedStatement preparedStatement =
                     connection.prepareStatement("INSERT INTO person VALUES(?, ?, ?, ?)");
 
-            preparedStatement.setInt(1, person.getId());
+            preparedStatement.setInt(1, ++PERSON_COUNT);
             preparedStatement.setString(2, person.getName());
             preparedStatement.setString(3, person.getSurname());
             preparedStatement.setString(4, person.getEmail());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public static void deletePerson(int person) {
+        System.out.println(person);
+
+        try {
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement("DELETE FROM person WHERE id=?");
+            preparedStatement.setInt(1, person);
 
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
