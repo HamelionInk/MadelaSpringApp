@@ -7,22 +7,25 @@
 <body>
 
 <form th:method="POST" th:action="@{/add}" th:object="${person}">
-    <label for="name">Enter name: </label>
-    <input type="text" th:field="*{name}" id="name"/>
+    <table border="1">
+        <tr>
+            <td>id</td>
+            <td>name</td>
+            <td>surname</td>
+            <td>email</td>
+        </tr>
+        <tr>
+            <td th:text="${person.getId()}"></td>
+            <td><input type="text" th:field="*{name}" id="name"/></td>
+            <td><input type="text" th:field="*{surname}" id="surname"/></td>
+            <td><input type="text" th:field="*{email}" id="email"/></td>
+        </tr>
+    </table>
 
-    <br/>
+    </br>
 
-    <label for="surname">Enter surname: </label>
-    <input type="text" th:field="*{surname}" id="surname"/>
-
-    <br/>
-
-    <label for="email">Enter email: </label>
-    <input type="text" th:field="*{email}" id="email"/>
-
-    <br/>
-
-    <input type="submit" value="Create!"/>
+    <input type="submit" th:value="Create">
+    <input type="reset" th:value="Reset">
 </form>
 
 

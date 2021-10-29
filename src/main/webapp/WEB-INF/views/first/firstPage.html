@@ -7,6 +7,10 @@
 <body>
 
 <p>DataControl</p>
+
+
+</br>
+
 <div>
     <table border="1">
         <tr>
@@ -14,6 +18,9 @@
             <td>name</td>
             <td>surname</td>
             <td>email</td>
+            <td colspan="2"><form method="get" th:action="@{/DataControl/add}">
+                <input type="submit" th:value="Add">
+            </form></td>
         </tr>
 
         <tr th:each="personb : ${persons}">
@@ -21,14 +28,16 @@
             <td th:text="${personb.getName()}"></td>
             <td th:text="${personb.getSurname()}"></td>
             <td th:text="${personb.getEmail()}"></td>
-            <td><a href="/DataControl/update">Edit</a></td>
+            <td><form method="get" th:action="@{/DataControl/update/{id}(id=${personb.getId()})}">
+                <input th:value="Edit" type="submit">
+            </form>
+            </td>
             <td>
                 <form method="post" th:action="@{/DataControl/delete/{id}(id=${personb.getId()})}">
                     <input th:value="Delete" type="submit">
                 </form>
             </td>
     </table>
-    <a href="DataControl/add">New</a>
 </div>
 
 </body>

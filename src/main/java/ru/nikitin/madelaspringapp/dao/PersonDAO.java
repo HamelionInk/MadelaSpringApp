@@ -15,8 +15,6 @@ public class PersonDAO {
 
     private static Connection connection;
 
-    private static int PERSON_COUNT;
-
     static {
         try {
             Class.forName("org.postgresql.Driver");
@@ -29,10 +27,6 @@ public class PersonDAO {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-    }
-
-    public static int getPersonCount() {
-        return PERSON_COUNT;
     }
 
     public static List<Person> getPersons() {
@@ -60,15 +54,14 @@ public class PersonDAO {
 
     }
 
-    public static void addPerson(Person person) {
+    public static void addPersons(Person person) {
         try {
             PreparedStatement preparedStatement =
-                    connection.prepareStatement("INSERT INTO person VALUES(?, ?, ?, ?)");
+                    connection.prepareStatement("INSERT INTO person VALUES(default , ?, ?, ?)");
 
-            preparedStatement.setInt(1, ++PERSON_COUNT);
-            preparedStatement.setString(2, person.getName());
-            preparedStatement.setString(3, person.getSurname());
-            preparedStatement.setString(4, person.getEmail());
+            preparedStatement.setString(1, person.getName());
+            preparedStatement.setString(2, person.getSurname());
+            preparedStatement.setString(3, person.getEmail());
 
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
@@ -88,6 +81,46 @@ public class PersonDAO {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public static Person getPerson(int id) {
+        Person person = null;
+
+        try {
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement("SELECT * FROM person WHERE id=?");
+
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+
+            person = new Person();
+            person.setId(resultSet.getInt("id"));
+            person.setName(resultSet.getString("name"));
+            person.setSurname(resultSet.getString("surname"));
+            person.setEmail(resultSet.getString("email"));
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return person;
+    }
+
+    public static void updatePerson(int id, Person person) {
+        try {
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement("UPDATE person SET name=?, surname=?, email=? WHERE id=?");
+
+            preparedStatement.setString(1, person.getName());
+            preparedStatement.setString(2, person.getSurname());
+            preparedStatement.setString(3, person.getEmail());
+            preparedStatement.setInt(4, id);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
     }
 }
 

@@ -1,11 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        td {
+            width: auto;
+        }
+    </style>
 </head>
 <body>
 <p>Edit</p>
+<form method="post" th:action="@{/DataControl/update/{id}(id=${person.getId()})}" th:object="${person}">
+<table border="1">
+    <tr>
+        <td>id</td>
+        <td>name</td>
+        <td>surname</td>
+        <td>email</td>
+    </tr>
+    <tr>
+        <td th:text="${person.getId()}"></td>
+        <td><input type="text" th:field="*{name}" id="name"/></td>
+        <td><input type="text" th:field="*{surname}" id="surname"/></td>
+        <td><input type="text" th:field="*{email}" id="email"/></td>
+    </tr>
+</table>
+    </br>
+    <input type="submit" th:value="Update">
+    <input type="reset" th:value="Reset">
+</form>
+
 
 </body>
 </html>

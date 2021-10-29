@@ -22,13 +22,21 @@ public class FirstController {
 
     @PostMapping("/add")
     public String addPage(@ModelAttribute("person") Person person) {
-        PersonDAO.addPerson(person);
+        PersonDAO.addPersons(person);
         return "redirect:/DataControl";
     }
 
-    @GetMapping("/DataControl/update")
-    public String updatePage() {
+    @GetMapping("/DataControl/update/{id}")
+    public String updatePage(@PathVariable("id") int id, Model model) {
+        model.addAttribute("person", PersonDAO.getPerson(id));
         return "first/updatePage";
+    }
+
+    @PostMapping("/DataControl/update/{id}")
+    public String update(@PathVariable("id") int id,
+                         @ModelAttribute("person") Person person) {
+        PersonDAO.updatePerson(id, person);
+        return "redirect:/DataControl";
     }
 
     @PostMapping("/DataControl/delete/{id}")
