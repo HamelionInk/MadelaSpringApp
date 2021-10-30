@@ -25,6 +25,18 @@
         <td><input type="text" th:field="*{surname}" id="surname"/></td>
         <td><input type="text" th:field="*{email}" id="email"/></td>
     </tr>
+    <tr>
+        <td></td>
+        <td>
+            <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
+        </td>
+        <td>
+            <div style="color:red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname Error</div>
+        </td>
+        <td>
+            <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
+        </td>
+    </tr>
 </table>
     </br>
     <input type="submit" th:value="Update">

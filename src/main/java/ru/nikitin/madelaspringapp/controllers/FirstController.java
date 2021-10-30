@@ -2,9 +2,11 @@ package ru.nikitin.madelaspringapp.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.nikitin.madelaspringapp.dao.PersonDAO;
 import ru.nikitin.madelaspringapp.model.Person;
+import javax.validation.Valid;
 
 @Controller
 public class FirstController {
@@ -21,7 +23,11 @@ public class FirstController {
     }
 
     @PostMapping("/add")
-    public String addPage(@ModelAttribute("person") Person person) {
+    public String addPage(@ModelAttribute("person") @Valid Person person,
+                          BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "first/addPage";
+
         PersonDAO.addPersons(person);
         return "redirect:/DataControl";
     }
@@ -34,7 +40,11 @@ public class FirstController {
 
     @PostMapping("/DataControl/update/{id}")
     public String update(@PathVariable("id") int id,
-                         @ModelAttribute("person") Person person) {
+                         @ModelAttribute("person") @Valid Person person,
+                         BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "first/updatePage";
+
         PersonDAO.updatePerson(id, person);
         return "redirect:/DataControl";
     }
