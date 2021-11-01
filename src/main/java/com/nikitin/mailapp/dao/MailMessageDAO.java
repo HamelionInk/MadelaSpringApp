@@ -1,4 +1,4 @@
-package ru.nikitin.madelaspringapp.dao;
+package com.nikitin.mailapp.dao;
 
 import org.springframework.stereotype.Component;
 
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class EmailMessageDAO {
+public class MailMessageDAO {
     private static final String URL = "jdbc:postgresql://localhost:5432/MadelaDB";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "User19cfb4";

@@ -1,32 +1,36 @@
-package ru.nikitin.madelaspringapp.controllers;
+package com.nikitin.mailapp.controllers;
 
+import com.nikitin.mailapp.dao.PersonDAO;
+import com.nikitin.mailapp.model.Person;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import ru.nikitin.madelaspringapp.dao.PersonDAO;
-import ru.nikitin.madelaspringapp.model.Person;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
 import javax.validation.Valid;
 
 @Controller
-public class FirstController {
+public class DataController {
 
     @GetMapping("/DataControl")
     public String showPage(Model model, @ModelAttribute("idPerson") Person person) {
         model.addAttribute("persons", PersonDAO.getPersons());
-        return "first/firstPage";
+        return "data/DataPage";
     }
 
     @GetMapping("/DataControl/add")
     public String newPage(@ModelAttribute("person") Person person) {
-        return "first/addPage";
+        return "data/DataAdd";
     }
 
     @PostMapping("/add")
     public String addPage(@ModelAttribute("person") @Valid Person person,
                           BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            return "first/addPage";
+            return "data/DataAdd";
 
         PersonDAO.addPersons(person);
         return "redirect:/DataControl";
@@ -35,7 +39,7 @@ public class FirstController {
     @GetMapping("/DataControl/update/{id}")
     public String updatePage(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", PersonDAO.getPerson(id));
-        return "first/updatePage";
+        return "data/DataUpdate";
     }
 
     @PostMapping("/DataControl/update/{id}")
@@ -43,7 +47,7 @@ public class FirstController {
                          @ModelAttribute("person") @Valid Person person,
                          BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            return "first/updatePage";
+            return "data/DataUpdate";
 
         PersonDAO.updatePerson(id, person);
         return "redirect:/DataControl";

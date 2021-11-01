@@ -1,7 +1,7 @@
-package ru.nikitin.madelaspringapp.dao;
+package com.nikitin.mailapp.dao;
 
+import com.nikitin.mailapp.model.Person;
 import org.springframework.stereotype.Component;
-import ru.nikitin.madelaspringapp.model.Person;
 
 import java.sql.*;
 import java.util.ArrayList;
