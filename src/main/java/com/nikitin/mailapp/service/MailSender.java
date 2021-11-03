@@ -23,8 +23,8 @@ public class MailSender {
         this.mailMessageDAO = mailMessageDAO;
     }
 
-    //@Scheduled(cron = "0 0 8 * * *")
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(cron = "0 0 8 * * *")
+    //@Scheduled(fixedRate = 5000)
     public void sendEmail() {
         List<String> emailList = mailMessageDAO.getEmail();
         for (String email : emailList) {

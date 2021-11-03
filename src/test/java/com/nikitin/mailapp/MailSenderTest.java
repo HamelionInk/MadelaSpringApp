@@ -18,7 +18,6 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class MailSenderTest {
 
-
     private final MailSender mailSender;
 
     @MockBean
