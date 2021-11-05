@@ -15,7 +15,6 @@ import java.util.List;
 public class MailSender {
     private final JavaMailSender emailSender;
     private final MailMessageDAO mailMessageDAO;
-    private SimpleMailMessage simpleMailMessage;
 
     @Autowired
     public MailSender(JavaMailSender emailSender, MailMessageDAO mailMessageDAO) {
@@ -24,7 +23,6 @@ public class MailSender {
     }
 
     @Scheduled(cron = "0 0 8 * * *")
-    //@Scheduled(fixedRate = 5000)
     public void sendEmail() {
         List<String> emailList = mailMessageDAO.getEmail();
         for (String email : emailList) {
@@ -33,7 +31,7 @@ public class MailSender {
     }
 
     public SimpleMailMessage createEmail(String emailTo, String subject, String message) {
-        simpleMailMessage = new SimpleMailMessage();
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
 
         simpleMailMessage.setFrom("username");
         simpleMailMessage.setTo(emailTo);

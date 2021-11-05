@@ -24,7 +24,7 @@
         </form>
     </div>
 </div>
-<form th:method="POST" th:action="@{/add}" th:object="${person}">
+<form th:method="POST" th:action="@{/add}" th:object="${personAdd}">
     <table class="table table-bordered border border-dark">
         <tr>
             <td>id</td>
@@ -33,7 +33,7 @@
             <td>email</td>
         </tr>
         <tr>
-            <td th:text="${person.getId()}"></td>
+            <td th:text="${personAdd.getId()}"></td>
             <td>
                 <input class="form-control form-control-lg" type="text" th:field="*{name}" id="name"/>
             </td>

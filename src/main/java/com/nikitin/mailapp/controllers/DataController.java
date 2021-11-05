@@ -15,47 +15,51 @@ import javax.validation.Valid;
 @Controller
 public class DataController {
 
-    @GetMapping("/DataControl")
-    public String showPage(Model model, @ModelAttribute("idPerson") Person person) {
+    @GetMapping("/")
+    public String showPage(Model model) {
         model.addAttribute("persons", PersonDAO.getPersons());
+
         return "data/DataPage";
     }
 
     @GetMapping("/DataControl/add")
-    public String newPage(@ModelAttribute("person") Person person) {
+    public String showAddPage(@ModelAttribute("personAdd") Person person) {
         return "data/DataAdd";
     }
 
     @PostMapping("/add")
-    public String addPage(@ModelAttribute("person") @Valid Person person,
-                          BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
+    public String addPerson(@ModelAttribute("personAdd") @Valid Person person,
+                            BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return "data/DataAdd";
+        }
 
         PersonDAO.addPersons(person);
-        return "redirect:/DataControl";
+        return "redirect:/";
     }
 
     @GetMapping("/DataControl/update/{id}")
-    public String updatePage(@PathVariable("id") int id, Model model) {
-        model.addAttribute("person", PersonDAO.getPerson(id));
+    public String showUpdatePage(@PathVariable("id") Long id,
+                                 Model model) {
+        model.addAttribute("personUpdate", PersonDAO.getPerson(id));
         return "data/DataUpdate";
     }
 
-    @PostMapping("/DataControl/update/{id}")
-    public String update(@PathVariable("id") int id,
-                         @ModelAttribute("person") @Valid Person person,
-                         BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
+    @PostMapping("/update/{id}")
+    public String updatePerson(@ModelAttribute("personUpdate") @Valid Person person,
+                               BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return "data/DataUpdate";
+        }
 
-        PersonDAO.updatePerson(id, person);
-        return "redirect:/DataControl";
+        PersonDAO.updatePerson(person);
+        return "redirect:/";
     }
 
+
     @PostMapping("/DataControl/delete/{id}")
-    public String deletePage(@PathVariable("id") int id) {
+    public String deletePerson(@PathVariable("id") Long id) {
         PersonDAO.deletePerson(id);
-        return "redirect:/DataControl";
+        return "redirect:/";
     }
 }

@@ -1,0 +1,8 @@
+spring:
+ datasource:
+  url: jdbc:postgresql://localhost:5432/MadelaDB
+  username: postgres
+  password: User19cfb4
+
+
+

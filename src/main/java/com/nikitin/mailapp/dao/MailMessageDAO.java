@@ -1,48 +1,33 @@
 package com.nikitin.mailapp.dao;
 
+import com.nikitin.mailapp.model.Person;
+import com.nikitin.mailapp.repository.PersonRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class MailMessageDAO {
-    private static final String URL = "jdbc:postgresql://localhost:5432/MadelaDB";
-    private static final String USERNAME = "postgres";
-    private static final String PASSWORD = "User19cfb4";
 
-    private static Connection connection;
+    private final PersonRepository personRepository;
 
-    static {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        }
+    @Autowired
+    public MailMessageDAO(PersonRepository personRepository) {
+        this.personRepository = personRepository;
     }
 
     public List<String> getEmail() {
         List<String> emailList = new ArrayList<>();
+        Iterable<Person> personList = personRepository.findAll();
 
-        try {
-            Statement statement = connection.createStatement();
-            String SQL = "SELECT email FROM person ";
-            ResultSet resultSet = statement.executeQuery(SQL);
-
-            while (resultSet.next()) {
-                emailList.add(resultSet.getString("email"));
-            }
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+        for (Person person : personList) {
+            emailList.add(person.getEmail());
         }
+
         return emailList;
     }
+
 }
 

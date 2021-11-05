@@ -58,4 +58,5 @@ public class MailSenderTest {
         assertEquals(mail.getSubject(), subject);
 
     }
+
 }

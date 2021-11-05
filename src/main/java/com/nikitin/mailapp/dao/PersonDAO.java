@@ -1,126 +1,50 @@
 package com.nikitin.mailapp.dao;
 
 import com.nikitin.mailapp.model.Person;
+import com.nikitin.mailapp.repository.PersonRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class PersonDAO {
-    private static final String URL = "jdbc:postgresql://localhost:5432/MadelaDB";
-    private static final String USERNAME = "postgres";
-    private static final String PASSWORD = "User19cfb4";
 
-    private static Connection connection;
 
-    static {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+    private static PersonRepository personRepository;
 
-        try {
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+    @Autowired
+    public PersonDAO(PersonRepository personRepository) {
+        PersonDAO.personRepository = personRepository;
     }
 
-    public static List<Person> getPersons() {
-        List<Person> personList = new ArrayList<>();
+    public static Iterable<Person> getPersons() {
 
-        try {
-            Statement statement = connection.createStatement();
-            String SQL = "SELECT * FROM person";
-            ResultSet resultSet = statement.executeQuery(SQL);
-
-            while (resultSet.next()) {
-                Person person = new Person();
-
-                person.setId(resultSet.getInt("id"));
-                person.setName(resultSet.getString("name"));
-                person.setSurname(resultSet.getString("surname"));
-                person.setEmail(resultSet.getString("email"));
-
-                personList.add(person);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return personList;
-
+        return personRepository.findAll();
     }
 
     public static void addPersons(Person person) {
-        try {
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement("INSERT INTO person VALUES(default , ?, ?, ?)");
+        personRepository.save(person);
 
-            preparedStatement.setString(1, person.getName());
-            preparedStatement.setString(2, person.getSurname());
-            preparedStatement.setString(3, person.getEmail());
-
-            preparedStatement.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 
-    public static void deletePerson(int person) {
-        System.out.println(person);
+    public static void deletePerson(Long person) {
+        personRepository.deleteById(person);
 
-        try {
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement("DELETE FROM person WHERE id=?");
-            preparedStatement.setInt(1, person);
-
-            preparedStatement.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 
-    public static Person getPerson(int id) {
-        Person person = null;
+    public static Person getPerson(Long id) {
+        Person person;
+        person = personRepository.findById(id).orElseThrow();
+        System.out.println(person.getName());
+        System.out.println(person.getSurname());
+        System.out.println(person.getEmail());
 
-        try {
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement("SELECT * FROM person WHERE id=?");
-
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-
-            person = new Person();
-            person.setId(resultSet.getInt("id"));
-            person.setName(resultSet.getString("name"));
-            person.setSurname(resultSet.getString("surname"));
-            person.setEmail(resultSet.getString("email"));
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
         return person;
     }
 
-    public static void updatePerson(int id, Person person) {
-        try {
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement("UPDATE person SET name=?, surname=?, email=? WHERE id=?");
-
-            preparedStatement.setString(1, person.getName());
-            preparedStatement.setString(2, person.getSurname());
-            preparedStatement.setString(3, person.getEmail());
-            preparedStatement.setInt(4, id);
-
-            preparedStatement.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+    public static void updatePerson(Person person) {
+        personRepository.save(person);
 
     }
+
 }
 
