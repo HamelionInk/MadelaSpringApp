@@ -1,7 +1,8 @@
 package com.nikitin.mailapp.controllers;
 
-import com.nikitin.mailapp.dao.PersonDAO;
 import com.nikitin.mailapp.model.Person;
+import com.nikitin.mailapp.repository.PersonRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,9 +16,16 @@ import javax.validation.Valid;
 @Controller
 public class DataController {
 
+    private final PersonRepository personRepository;
+
+    @Autowired
+    public DataController(PersonRepository personRepository) {
+        this.personRepository = personRepository;
+    }
+
     @GetMapping("/")
     public String showPage(Model model) {
-        model.addAttribute("persons", PersonDAO.getPersons());
+        model.addAttribute("persons", personRepository.findAll());
 
         return "data/DataPage";
     }
@@ -34,14 +42,14 @@ public class DataController {
             return "data/DataAdd";
         }
 
-        PersonDAO.addPersons(person);
+        personRepository.save(person);
         return "redirect:/";
     }
 
     @GetMapping("/DataControl/update/{id}")
     public String showUpdatePage(@PathVariable("id") Long id,
                                  Model model) {
-        model.addAttribute("personUpdate", PersonDAO.getPerson(id));
+        model.addAttribute("personUpdate", personRepository.findById(id).orElseThrow());
         return "data/DataUpdate";
     }
 
@@ -52,14 +60,13 @@ public class DataController {
             return "data/DataUpdate";
         }
 
-        PersonDAO.updatePerson(person);
+        personRepository.save(person);
         return "redirect:/";
     }
 
-
     @PostMapping("/DataControl/delete/{id}")
     public String deletePerson(@PathVariable("id") Long id) {
-        PersonDAO.deletePerson(id);
+        personRepository.deleteById(id);
         return "redirect:/";
     }
 }

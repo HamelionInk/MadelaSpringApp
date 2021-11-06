@@ -1,4 +1,4 @@
-package com.nikitin.mailapp.service;
+package com.nikitin.mailapp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

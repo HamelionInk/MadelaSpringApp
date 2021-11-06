@@ -1,6 +1,7 @@
 package com.nikitin.mailapp;
 
-import com.nikitin.mailapp.dao.MailMessageDAO;
+import com.nikitin.mailapp.model.Person;
+import com.nikitin.mailapp.repository.PersonRepository;
 import com.nikitin.mailapp.service.MailSender;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +25,13 @@ public class MailSenderTest {
     private final JavaMailSender javaMailSender;
 
     @MockBean
-    private final MailMessageDAO mailMessageDAO;
+    private final PersonRepository personRepository;
 
     @Autowired
-    public MailSenderTest(MailMessageDAO mailMessageDAO, JavaMailSender javaMailSender, MailSender mailSender) {
+    public MailSenderTest(PersonRepository personRepository, JavaMailSender javaMailSender, MailSender mailSender) {
         this.mailSender = mailSender;
         this.javaMailSender = javaMailSender;
-        this.mailMessageDAO = mailMessageDAO;
+        this.personRepository = personRepository;
 
     }
 
@@ -38,11 +39,13 @@ public class MailSenderTest {
     void sendMail() {
         String subject = "Test Spring";
         String message = "Пора на работу!";
-        List<String> emailTest = new ArrayList<>();
-        emailTest.add("test@gmail.com");
-        when(mailMessageDAO.getEmail()).thenReturn(emailTest);
+        List<Person> emailTest = new ArrayList<>();
+        Person person = new Person();
+        person.setEmail("test@gmail.com");
+        emailTest.add(person);
+        when(personRepository.findAll()).thenReturn(emailTest);
         mailSender.sendEmail();
-        verify(javaMailSender, times(1)).send(mailSender.createEmail(emailTest.get(0), subject, message));
+        verify(javaMailSender, times(1)).send(mailSender.createEmail(emailTest.get(0).getEmail(), subject, message));
     }
 
     @Test

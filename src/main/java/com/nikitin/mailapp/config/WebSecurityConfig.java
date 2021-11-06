@@ -28,8 +28,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
     }
 
+    @SuppressWarnings("deprecation")
     @Bean
     @Override
+    //todo - only for test, replace in production
     public UserDetailsService userDetailsService() {
         UserDetails user =
                 User.withDefaultPasswordEncoder()
