@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -53,7 +50,7 @@ public class DataController {
         return "data/DataUpdate";
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public String updatePerson(@ModelAttribute("personUpdate") @Valid Person person,
                                BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -64,7 +61,7 @@ public class DataController {
         return "redirect:/";
     }
 
-    @PostMapping("/DataControl/delete/{id}")
+    @DeleteMapping("/DataControl/delete/{id}")
     public String deletePerson(@PathVariable("id") Long id) {
         personRepository.deleteById(id);
         return "redirect:/";
