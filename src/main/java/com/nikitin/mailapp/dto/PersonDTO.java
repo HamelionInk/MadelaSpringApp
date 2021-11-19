@@ -24,6 +24,12 @@ public class PersonDTO {
 
     }
 
+    public PersonDTO(String name, String surname, String email) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+    }
+
     public Long getId() {
         return id;
     }

@@ -40,7 +40,7 @@ public class PersonService implements MyPersonService {
         }
 
         @Override
-        public PersonDTO editPerson(Long id) {
+        public PersonDTO showPerson(Long id) {
                 Person person = personRepository.getById(id);
                 return convertModelToDto(person);
         }

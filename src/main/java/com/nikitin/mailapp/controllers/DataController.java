@@ -48,11 +48,11 @@ public class DataController {
     @GetMapping("/DataControl/update/{id}")
     public String showUpdatePage(@PathVariable("id") Long id,
                                  Model model) {
-        model.addAttribute("personUpdate", personService.editPerson(id));
+        model.addAttribute("personUpdate", personService.showPerson(id));
         return "data/DataUpdate";
     }
 
-    @PutMapping("/update/{id}")
+    @PostMapping("/update/{id}")
     public String updatePerson(@ModelAttribute("personUpdate") @Valid PersonDTO personDTO,
                                BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -63,7 +63,7 @@ public class DataController {
         return "redirect:/";
     }
 
-    @DeleteMapping("/DataControl/delete/{id}")
+    @PostMapping("/DataControl/delete/{id}")
     public String deletePerson(@PathVariable("id") Long id) {
         personService.deletePerson(id);
         return "redirect:/";

@@ -3,9 +3,7 @@ package com.nikitin.mailapp.controllers;
 import com.nikitin.mailapp.dto.PersonDTO;
 import com.nikitin.mailapp.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,21 +17,24 @@ public class DataRestController {
         this.personService = personService;
     }
 
-    @GetMapping
+    @GetMapping("/api/show")
     public List<PersonDTO> showAllPerson() {
         return personService.showAllPerson();
     }
 
     @GetMapping("/{id}")
     public PersonDTO showPersonById(@PathVariable("id") Long id) {
-        return personService.editPerson(id);
+        return personService.showPerson(id);
     }
 
-    public void updatePerson() {
-
+    @PutMapping("/api/{id}")
+    public void updatePerson(String name, String surname, String email) {
+        PersonDTO personDTO = new PersonDTO(name, surname, email);
+        personService.createOrUpdatePerson(personDTO);
     }
 
-    public void deletePerson() {
-
+    @DeleteMapping("/api/{id}")
+    public void deletePerson(@PathVariable("id") Long id) {
+        personService.deletePerson(id);
     }
 }

@@ -11,5 +11,5 @@ public interface MyPersonService {
 
     public void deletePerson(Long id);
 
-    public PersonDTO editPerson(Long id);
+    public PersonDTO showPerson(Long id);
 }

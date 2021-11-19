@@ -53,8 +53,7 @@
                         <input class="btn btn-secondary bg-dark" role="group" style="background-color: #eee;"
                                th:value="Edit" type="submit">
                     </form>
-                    <form th:method="delete" th:action="@{/DataControl/delete/{id}(id=${personb.getId()})}">
-                        <input type="hidden" name="_method" value="delete">
+                    <form method="post" th:action="@{/DataControl/delete/{id}(id=${personb.getId()})}">
                         <input class="btn btn-secondary bg-dark" role="group" style="background-color: #eee;"
                                th:value="Delete" type="submit">
                     </form>
