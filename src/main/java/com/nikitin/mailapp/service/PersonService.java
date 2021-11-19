@@ -11,7 +11,6 @@ import java.util.List;
 
 @Service
 public class PersonService implements MyPersonService {
-
         private final PersonRepository personRepository;
 
         @Autowired
@@ -22,14 +21,13 @@ public class PersonService implements MyPersonService {
         public void createOrUpdatePerson(PersonDTO personDTO) {
                 Person person = convertDtoToModel(personDTO);
                 personRepository.save(person);
-
         }
 
         @Override
         public List<PersonDTO> showAllPerson() {
                 List<Person> list = personRepository.findAll();
                 List<PersonDTO> listDto = new ArrayList<>();
-                for(Person person : list) {
+                for (Person person : list) {
                         PersonDTO personDTO = convertModelToDto(person);
                         listDto.add(personDTO);
                 }

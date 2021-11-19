@@ -1,23 +1,39 @@
 package com.nikitin.mailapp.controllers;
 
+import com.nikitin.mailapp.dto.PersonDTO;
+import com.nikitin.mailapp.service.PersonService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class DataRestController {
 
-    public String showAllPerson() {
-        return null;
+    private PersonService personService;
+
+    @Autowired
+    public DataRestController(PersonService personService) {
+        this.personService = personService;
     }
 
-    public String showPersonById() {
-        return null;
+    @GetMapping
+    public List<PersonDTO> showAllPerson() {
+        return personService.showAllPerson();
     }
 
-    public String updatePerson() {
-        return null;
+    @GetMapping("/{id}")
+    public PersonDTO showPersonById(@PathVariable("id") Long id) {
+        return personService.editPerson(id);
     }
 
-    public String deletePerson() {
-        return null;
+    public void updatePerson() {
+
+    }
+
+    public void deletePerson() {
+
     }
 }
