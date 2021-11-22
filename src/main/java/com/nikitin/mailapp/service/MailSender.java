@@ -14,7 +14,7 @@ import java.util.List;
 
 @Component
 @EnableScheduling
-public class MailSender {
+public class MailSender implements MyMailSender {
     private final JavaMailSender emailSender;
     private final PersonRepository personRepository;
 
@@ -26,9 +26,9 @@ public class MailSender {
 
     @Scheduled(cron = "0 0 8 * * *")
     public void sendEmail() {
-        List<String> emailList = this.getEmail();
-        for (String email : emailList) {
-            this.emailSender.send(createEmail(email, "Test Spring", "Пора на работу!"));
+        List<Person> emailList = this.getEmail();
+        for (Person person : emailList) {
+            this.emailSender.send(createEmail(person.getEmail(), "Test Spring", "Пора на работу!"));
         }
     }
 
@@ -43,14 +43,8 @@ public class MailSender {
         return simpleMailMessage;
     }
 
-    private List<String> getEmail() {
-        List<String> emailList = new ArrayList<>();
-        Iterable<Person> personList = personRepository.findAll();
-
-        for (Person person : personList) {
-            emailList.add(person.getEmail());
-        }
-
-        return emailList;
+    public List<Person> getEmail() {
+        List<Person> personList = personRepository.findAll();
+        return personList;
     }
 }
